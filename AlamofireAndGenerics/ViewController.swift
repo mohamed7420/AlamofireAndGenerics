@@ -10,9 +10,26 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    let users: UserApiProtocol = UserAPI()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        users.getUser { (result) in
+            
+            switch result{
+            case .success(let response):
+                
+                let users = response?.data ?? []
+                
+                for user in users{
+                    print(user.firstName ?? "" , user.lastName ?? "")
+                }
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 
 
